@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+    <style>
+    /* écran grand */
+    @media (min-width: 50em) {
+    .nav { width: 100%; }
+    .nav li { display: inline-block; }
+    }
+    /* écran plus petit: on passe le menu en horizontal */
+    @media (max-width: 50em) {
+    .nav { width:220px; }
+    .nav li { display: inline-block; }
+    }
+    </style>
+
+  <body>
+    <h1>Movie Quizz</h1>
+  	<div class="nav">
+      <div class="row">
+        <a id='movie'></a>
+        <label for="name">Enter the director name or an actor:</label>
+        <input id="name" name="name" type="text">
+        <button onclick='validateName()'>Submit</button>
+        <a id='reponse'></a>
+      </div>
+      <div class="suite">
+        <a id='suite'></a>
+        <a id='suite1'></a>
+        <label for="film">Enter a film with this director or actor:</label>
+        <input id="film" name="film" type="film">
+        <button onclick='validateFilm()'>Submit</button>
+        <a id='reponse2'></a>
+      </div>
+      <div class="fin">
+        <a id='fin'></a>
+        <a id='fin1'></a>
+        <label>Bien joué ! :</label>
+        <button onclick='finQuiz()'>Recommencer</button>
+      </div>
+    </div>
+  </body>
+</html>
+<script type="text/javascript" src="index.js"></script>
