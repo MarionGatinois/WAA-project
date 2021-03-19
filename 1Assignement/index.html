@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+    <style>
+    /* écran grand */
+    @media (min-width: 50em) {
+    .nav { width: 100%; }
+    .nav li { display: inline-block; }
+    }
+    /* écran plus petit: on passe le menu en horizontal */
+    @media (max-width: 50em) {
+    .nav { width:220px; }
+    .nav li { display: inline-block; }
+    }
+    </style>
+
+  <body>
+    <h1>Canvas</h1>
+  	<div class="nav">
+      <div class="row">
+        <label for="name">Your name:</label>
+        <input id="name" name="name" type="text">
+      </div>
+  		<div class="row">
+  			<label for="form">Form:</label>
+  			<select  id="form">
+  				<option value="">Select form</option>
+  				<option value="triangle">Triangle</option>
+  				<option value="square">Square</option>
+  				<option value="circle">circle</option>
+  			</select>
+  		</div>
+  		<div class="row">
+  			<label for="bgColor">Background color:</label>
+  			<input id="bgColor" name="bgColor" type="color" list="5color" value="#000000">
+  		</div>
+      <div class="row">
+  			<label for="borderColor">Border color:</label>
+  			<input id="borderColor" name="borderColor" type="color" list="5color" value="#000000">
+  		</div>
+  		<div class="row">
+  			<label for="thickness">Border thickness:</label>
+  			<select  id="thickness">
+  				<option value="">Select thickness</option>
+  				<option value="2">2px</option>
+  				<option value="4">4px</option>
+  				<option value="6">6px</option>
+  				<option value="8">8px</option>
+  				<option value="10">10px</option>
+  				<option value="20">20px</option>
+  			</select>
+  		</div>
+  		<div class="row">
+  			<label for="size">Figure size:</label>
+  			<select  id="size">
+  				<option value="">Select size</option>
+  				<option value="20">20px</option>
+  				<option value="40">40px</option>
+  				<option value="60">60px</option>
+  				<option value="80">80px</option>
+  				<option value="100">100px</option>
+  				<option value="200">200px</option>
+  			</select>
+  		</div>
+  		<div class="row">
+  			<div id="box">
+  				<button id="display" onclick="displayfunction()">Display:</button>
+  			</div>
+  		</div>
+      <div class="row">
+  			<div id="box2">
+  				<button id="randomdisplay" onclick="randomdisplay()">Display 10 random forms:</button>
+  			</div>
+  		</div>
+      <div class="row">
+        <div id="box3">
+          <button id="drawLine" onclick="drawLine()">Mouse Drawing with canvas</button>
+        </div>
+      </div>
+      <div class="row">
+        <div id="box4">
+          <button id="drawCircleAtCursor" onclick="drawCircleAtCursor()">Mous Drawing circle</button>
+        </div>
+      </div>
+      <div class="row">
+        <label for="pencilSize">Pencil size:</label>
+        <select  id="pencilSize">
+          <option value="">Select size</option>
+          <option value="1">1px</option>
+          <option value="3">3px</option>
+          <option value="5">5px</option>
+          <option value="8">8px</option>
+          <option value="10">10px</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="borderColor">Pencil Color:</label>
+        <input id="pencilColor" name="pencilColor" type="color" list="5color" value="#000000">
+      </div>
+      <datalist id="5color">
+        <option value="#22223B"></option>
+        <option value="#4A4E68"></option>
+        <option value="#9A8C98"></option>
+        <option value="#C9ADA7"></option>
+        <option value="#F2E9E4"></option>
+      </datalist>
+  	</div>
+    <div class="row">
+      <div id="box5">
+        <button id="image" onclick="image()">open image in a new tab and below:</button>
+      </div>
+    </div>
+  	<canvas id="canvas"></canvas>
+    <div id="imageAfficher"></div>
+  </body>
+</html>
+<script type="text/javascript" src="script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
