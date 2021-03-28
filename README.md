@@ -25,9 +25,11 @@ You can draw but also display figures and see those of others.
 
 I add a 3 buttons : one to save the image locally - one to save the image on the server - one to display all images saved on the server
 
-- To save locally I choose to use 'fs' and 'buffer' (create file to download and convert into base64 to display the image)
+- To save locally I choose to use 'fs' and 'buffer' (create file to download and convert into base64 to display the image). 
 I create a folder 'ImagesLocal' where all images will be saved
-- To save on the server I use MongoDb and to deploy on Heroku, I create an URL with password that is hidden (gitignore) to connect to Mongo Atlas
+
+- To save on the server I use MongoDb and to deploy on Heroku, I create an URL with password that is hidden (gitignore) to connect to Mongo Atlas. On Mongo Atlas I create a new database and a colection to store all images (name, date, url)
+
 - To display all images from MongoDb I use the same URL, I recover all images on Mongo Atlas with fetch
 
 
