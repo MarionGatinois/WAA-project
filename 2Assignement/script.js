@@ -366,15 +366,24 @@ addEventListener('resize', () => {
 
 //Exercice des images
 
-const image = () => {
-
+function image  (dataURL) {
+  console.log('fff'+dataURL)
+  if(dataURL==undefined)
+  {
     var canvas = document.getElementById('canvas');
     var dataURL = canvas.toDataURL(image.png);
     //console.log(dataURL)
     var win = window.open();
     win.document.write('<img src="' + dataURL  + '"/>');
+    console.log(dataURL)
+
     document.getElementById('imageAfficher').innerHTML="<p>Image</p><img src='"+dataURL+"'>";
     return dataURL;
+  }
+  else{
+    var win = window.open();
+    win.document.write('<img src="' + dataURL  + '"/>');
+  }
 }
 
 const imageServer = () => {
@@ -399,16 +408,52 @@ const imageServer = () => {
      };
 
      function onTextReady(text){
-       console.log(text);
+       console.log('text'+text);
      };
 
      function onResponse(res){
+       console.log('res.text'+res);
        return res.text();
      };
 
      fetch('/pushFigure', fetchOptions).then(onResponse).then(onTextReady);
        alert('upload is done ! ')
    }
+}
+
+const imageLocal =() => {
+  var canvas = document.getElementById('canvas');
+  var dataURL = canvas.toDataURL(image.png);  username=user()
+  if(username=="")
+  {
+    alert('you are not connected')
+  }
+  else
+    {
+    //console.log(username, dataURL, Date.now())
+    const message = {
+      username : username,
+      path_to_image :dataURL,
+    }
+    const fetchOptions = {
+       method: 'POST',
+       headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
+       body: JSON.stringify(message)
+     };
+
+     function onTextReady(text){
+       console.log('text'+text);
+     };
+
+     function onResponse(res){
+       console.log('res.text'+res);
+       return res.text();
+     };
+     fetch('/upload', fetchOptions).then(onResponse).then(onTextReady);
+     alert('upload is done ! ')
+
+   }
+
 }
 
 const savedImage = () => {
@@ -426,9 +471,10 @@ const retrievedImage = async(name) => {
     {
       if(elem[i]!=null)
       {
-        console.log(elem[i])
+        //console.log(elem[i])
         win.document.write('<img width=200px border=solid black 10px  src="' + elem[i].path_to_image  + '"/>');
         win.document.write('<p>' + 'Draw by <b>'+ elem[i].username  + '</b> at the date: ' +elem[i].datetime  +'</p>');
+        //win.document.write(`<p> Here the Link to the image :  <button id=${i} onClick="window.open('${elem[i].path_to_image}')">Click_Here</button></p>` );
       }
     }
   }

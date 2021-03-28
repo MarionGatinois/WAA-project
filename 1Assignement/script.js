@@ -11,6 +11,47 @@ var figures = [];
 var position = [];
 position.push({"nb" : 150, "nb2": 150});
 
+let name=""
+
+
+
+//partie upload images :
+
+function upload(){
+    let upload
+    if(upload == true ){
+        alert('upload is done!')
+    }
+    //return(name)
+
+}
+
+
+
+
+//partie connexion :
+
+function user(){
+    let name2 = document.getElementById('name')
+    let connexion = document.getElementById('connexion')
+    if(name2.value.length >= 3){
+        name = name2.value
+        connexion.innerHTML = `You are connected : <b> Welcome ${name} !</b>`
+    }
+    else{
+        connexion.innerHTML = `You are not register`
+        name = ""
+    }
+    return(name)
+}
+
+
+
+
+
+//display figures
+
+
 const displayCircle = (thickness, bg_color,borderColor, nb,nb2, size, c) => {
   c.lineWidth =  thickness
   c.beginPath()
@@ -48,8 +89,19 @@ const displaySquare = (thickness, bg_color,borderColor, nb,nb2, size, c) => {
   c.stroke();
 }
 
+const canvas = document.getElementById('canvas')
+const c = canvas.getContext('2d')
+
+
+
+
+
+//function appelé pour l'affichage des figures
 
 const displayfunction = (form) => {
+  nameuser = user()
+  if(nameuser!="")
+  {
   var j=0;
   var test=0;
   while(j<2)
@@ -58,17 +110,18 @@ const displayfunction = (form) => {
     {
     var form =	document.getElementById("form").value;
     }
-    const name=	document.getElementById("name").value;
     const bg_color=	document.getElementById("bgColor").value;
     const borderColor=	document.getElementById("borderColor").value;
-    const thickness=	document.getElementById("thickness").value;
-    const size=	document.getElementById("size").value;
-
-
-    // getting a reference to our HTML element
-    const canvas = document.querySelector('canvas')
-    // initiating 2D context on it
-    const c = canvas.getContext('2d')
+    var thickness=	document.getElementById("thickness").value;
+    var size=	document.getElementById("size").value;
+    if(thickness=="")
+    {
+      thickness=2
+    }
+    if(size=="")
+    {
+      size=20
+    }
 
     addEventListener('load', () => {
     canvas.width = innerWidth
@@ -98,41 +151,43 @@ const displayfunction = (form) => {
         }
     }
 
-    if(count == 0 && name!="")
+    if(count == 0)
     {
       j=3
 
       const message = {
       form: form,
-      name:name,
+      name:nameuser,
       bg_color: bg_color,
       borderColor : borderColor,
       thickness : thickness,
       size : size,
       nb : nb,
-      nb2 : nb2
+      nb2 : nb2,
+      name: nameuser
       };
 
       if(form =='circle')
       {
         displayCircle(thickness, bg_color,borderColor, nb,nb2, size, c)
-        c.fillText(name,5,(canvas.height-5))
         socket.emit("drawing", JSON.stringify(message))
+        document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${nameuser} !</b>`
 
       }
       if(form =='square')
       {
         displaySquare(thickness, bg_color,borderColor, nb,nb2, size, c)
-        c.fillText(name,5,(canvas.height-5))
         socket.emit("drawing", JSON.stringify(message))
+        document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${nameuser} !</b>`
 
 
       }
       if(form =='triangle')
       {
         displayTriangle(thickness, bg_color,borderColor, nb,nb2, size, c)
-        c.fillText(name,5,(canvas.height-5))
         socket.emit("drawing", JSON.stringify(message))
+        document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${nameuser} !</b>`
+
       }
       //TD8
     }
@@ -140,19 +195,17 @@ const displayfunction = (form) => {
     {
       position.pop();
       test = test+1;
-      if(test==5 && name=="")
-      {
-        console.log('Entrez un nom')
-        alert('Entrez un nom')
-        j=3;
-      }
-      else if(test==5 && name!='')
+      if(test==5)
       {
         console.log('Pas de place pour cette forme.. réessayez!')
         alert('Pas de place pour cette forme.. réessayez!')
         j=3;
       }
     }
+    }
+  }
+  else {
+    alert('you are not connected')
   }
 }
 
@@ -164,7 +217,6 @@ const displayfunction = (form) => {
 const randomdisplay = () => {
   for (var i=0; i<10;i++)
   {
-    console.log(i)
     rd=(Math.floor((Math.random()*(3))));
       if(rd==0) //circle
       {
@@ -184,6 +236,9 @@ const randomdisplay = () => {
 }
 
 
+
+//affichage des dessins dans socket.io//
+
 const retrievedObject = async(message) => {
 
     const elem = JSON.parse(message);
@@ -191,7 +246,6 @@ const retrievedObject = async(message) => {
 
       if(elem !=null)
       {
-      console.log(elem.form)
       if(elem.form != 'dessin')
       {
         const form = elem.form;
@@ -201,7 +255,7 @@ const retrievedObject = async(message) => {
         const size = elem.size;
         const nb = elem.nb;
         const nb2 = elem.nb2;
-        const name2 = elem.name;
+        const username = elem.name;
 
         const canvas = document.querySelector('canvas')
         const c = canvas.getContext('2d')
@@ -211,19 +265,22 @@ const retrievedObject = async(message) => {
           canvas.height = innerHeight
         })
 
-        console.log(form)
+        console.log(form,thickness, bg_color,borderColor, nb,nb2, size)
 
         if(form =='circle')
         {
           displayCircle(thickness, bg_color,borderColor, nb,nb2, size, c)
+          document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${username} !</b>`
         }
         if(form =='square')
         {
           displaySquare(thickness, bg_color,borderColor, nb,nb2, size, c)
+          document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${username} !</b>`
         }
         if(form =='triangle')
         {
           displayTriangle(thickness, bg_color,borderColor, nb,nb2, size, c)
+          document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${username} !</b>`
         }
       }
       else{
@@ -232,15 +289,19 @@ const retrievedObject = async(message) => {
         const x2 = elem.x2;
         const y1 = elem.y1;
         const y2 = elem.y2;
+        const username = elem.name;
+        const pencilSize = elem.pencilSize;
+        const pencilColor = elem.pencilColor;
+        drawLineRetrieve(x1, y1, x2, y2, username, pencilSize, pencilColor)
+        document.getElementById('lastUser').innerHTML = `Last drawer is  <b>  ${username} !</b>`
 
-        drawLine(x1, x2, y1, y2)
       }
   }
 }
 
-const canvas = document.getElementById('canvas')
-const c = canvas.getContext('2d')
 
+
+//dessin à la  main
 
 let isDrawing = false;
 let x=0;
@@ -253,18 +314,26 @@ addEventListener('load', () => {
 
 
 
-function drawLine(x1, y1, x2, y2) {
+function drawLine(x1, y1, x2, y2, pencilSize, pencilColor) {
   // using a line between actual point and the last one solves the problem
   // if you make very fast circles, you will see polygons.
   // we could make arcs instead of lines to smooth the angles and solve the problem
-  const name=	document.getElementById("name").value;
-  if(name=="")
+  username=user()
+  if(username=="")
   {
-    alert('Entrez un nom')
+    alert('you are not connected')
   }
-  else{
-    const pencilSize=	document.getElementById("pencilSize").value;
-    const pencilColor=	document.getElementById("pencilColor").value;
+  else
+  {
+    if(pencilSize=="")
+    {
+      var pencilSize=	document.getElementById("pencilSize").value;
+    }
+    if(pencilColor=="")
+    {
+      const pencilColor=	document.getElementById("pencilColor").value;
+    }
+    console.log(x1, y1, x2, y2, name, pencilSize, pencilColor)
     c.beginPath();
     c.strokeStyle = pencilColor;
     c.lineWidth = pencilSize;
@@ -272,19 +341,19 @@ function drawLine(x1, y1, x2, y2) {
     c.lineTo(x2, y2);
     c.stroke();
     c.closePath();
-    c.fillText(name,5,(canvas.height-5))
-    const message = {
-    form: 'dessin',
-    c:c,
-    x1: x1,
-    x2: x2,
-    y1 : y1,
-    y2 : y2,
-    };
-    socket.emit("drawing", JSON.stringify(message))
   }
 }
 
+function drawLineRetrieve(x1, y1, x2, y2, username, pencilSize, pencilColor) {
+  console.log(x1, y1, x2, y2, name, pencilSize, pencilColor)
+  c.beginPath();
+  c.strokeStyle = pencilColor;
+  c.lineWidth = pencilSize;
+  c.moveTo(x1, y1);
+  c.lineTo(x2, y2);
+  c.stroke();
+  c.closePath();
+}
 
 canvas.addEventListener('mousedown', function(e) {
     const rect = canvas.getBoundingClientRect()
@@ -298,7 +367,10 @@ canvas.addEventListener('mousedown', function(e) {
 canvas.addEventListener('mousemove', e => {
   if (isDrawing === true) {
     //drawCircleAtCursor(x,y,canvas, e)
-    drawLine(x, y, e.offsetX, e.offsetY);
+    username = user()
+    drawLine(x, y, e.offsetX, e.offsetY, username);
+    const message = {form:'dessin', name: username ,x1: x, y1: y, x2: e.offsetX, y2: e.offsetY, pencilColor: document.getElementById('pencilColor').value, pencilSize: parseInt(document.getElementById('pencilSize').value)}
+    socket.emit("drawing", JSON.stringify(message))
     x = e.offsetX;
     y = e.offsetY;
   }
@@ -319,6 +391,9 @@ addEventListener('resize', () => {
     canvas.height = innerHeight
 })
 
+
+
+//Exercice des images
 
 const image = () => {
   var canvas = document.getElementById('canvas');
