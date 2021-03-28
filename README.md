@@ -20,6 +20,22 @@ Anti-Bug
 
 
 # 2Assignement : (10pts)
+I choose to use my own multiuser whiteboard. (own function display, retrieved figures and drawing,..)
+You can draw but also display figures and see those of others.
+
+I add a 3 buttons : one to save the image locally - one to save the image on the server - one to display all images saved on the server
+
+- To save locally I choose to use 'fs' and 'buffer' (create file to download and convert into base64 to display the image)
+- To save on the server I use MongoDb and to deploy on Heroku, I create an URL with password that is hidden (gitignore) to connect to Mongo Atlas
+- To display all images from MongoDb I use the same URL, I recover all images on Mongo Atlas with fetch
+
+
+Anti-Bug
+- same at exo1
+- the name of the image is automatically the name of the user
+- you can't draw if you are not connected but you can access to 'saved images' (display all images saved on mongoDB)
+- you can't draw if you are not connected but you also can't saved your image locally and on mongodb
+
 
 
 # 3Assignement : (10pts)
