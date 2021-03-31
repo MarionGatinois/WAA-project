@@ -25,7 +25,7 @@ You can draw but also display figures and see those of others.
 
 I add a 3 buttons : - one to save the image on the server - one to display all images saved on the server - one to open the image in a new tab 
 
-- To save on the server I use MongoDb and to deploy on Heroku, I create an URL with password that is hidden (only on heroku) to connect to Mongo Atlas. On Mongo Atlas I create a new database and a colection to store all images (name, date, url)
+- To save on the server I use MongoDb and to deploy on Heroku, I create an URL with password that is hidden (only on heroku) to connect to Mongo Atlas. On Mongo Atlas I create a new database and a collection to store all images (name, date, url)
 
 - To display all images from MongoDb I use the same URL, I recover all images on Mongo Atlas with fetch
 
